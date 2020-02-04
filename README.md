@@ -25,7 +25,6 @@ CREATE SEQUENCE seq_id START 1;
 
 -- DROP TABLE public.temporage_data;
 ```
-
 CREATE TABLE public.temporage_data  
 (
     id integer NOT NULL DEFAULT nextval('seq_id'::regclass),
