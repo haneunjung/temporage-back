@@ -4,18 +4,17 @@ import com.jojoldu.book.springboot.domain.posts.*;
 import org.json.simple.JSONObject;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@SuppressWarnings("unchecked")
 public class TemporageController {
 
     @Autowired
@@ -77,10 +76,11 @@ public class TemporageController {
         }
     }
 
+
     @PostMapping("/sign-in")
     public JSONObject user_sign_in(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest request){
         TemporageUserData user_data = userDataRepository.findByEmail(email);
-        JSONObject result = new JSONObject();
+        JSONObject result = new JSONObject(new HashMap<String, String>());
 
         if(user_data == null){
             result.put("result", 2);
@@ -90,9 +90,8 @@ public class TemporageController {
 
         if(BCrypt.checkpw(password, user_data.getPassword())){
             HttpSession session = request.getSession();
-            LocalDate current_date = LocalDate.now();
 
-            TemporageSession session_data = new TemporageSession(session.getId(), email); //session info
+            TemporageSession session_data = new TemporageSession(session.getId(), email); //SESSION Part. 02/07
             sessionRepository.save(session_data);
 
             result.put("result", 1);
@@ -101,23 +100,26 @@ public class TemporageController {
             return result;
         }else{
             result.put("result", 3);
-            result.put("result", "not corret password or email");
+            result.put("message", "not corret password or email");
             return result;
         }
     }
 
+    //SESSION Part. 02/07
     @PostMapping("/session-check")
-    public JSONObject user_session_check(@RequestParam("email") String email, @RequestParam("session_id") String c_sessionId){
+    public JSONObject user_session_check(@RequestParam("email") String email, @CookieValue("JSESSIONID") String c_sessionId){
         JSONObject result = new JSONObject();
         TemporageSession sessionInfo = sessionRepository.findByEmail(email);
 
-        if(c_sessionId == sessionInfo.getSession_id()){
+        if(c_sessionId.equals(sessionInfo.getSession_id())){
             result.put("result", 1);
             result.put("message", "Session ID is correct");
             return result;
         }else{
             result.put("result", 4);
-            result.put("message", sessionInfo.getSession_id());
+            result.put("message", "SESSION ID is not correct.");
+            result.put("Client SessionID", c_sessionId);
+            result.put("Server SessionID", sessionInfo.getSession_id());
             return result;
         }
     }
