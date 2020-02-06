@@ -9,7 +9,7 @@ https://ddingg.tistory.com/44
 
 3. Annotation들과 JPA에 대한 학습 필요. Entity를 구성하는 것 까지 완료.
 
----
+---w
 
 # 스터디 2주차
 
@@ -73,3 +73,15 @@ ALTER TABLE public.temporage_data OWNER to postgres;
 - 로그인 세션
 - 공유 기능
 - CI/CD 완성 시키기
+
+---
+
+##result_code
+
+```
+0 : unexecpt error
+1 : success
+2 : email is not correct
+3 : password is not correct
+4 : Session ID is not correct 
+```

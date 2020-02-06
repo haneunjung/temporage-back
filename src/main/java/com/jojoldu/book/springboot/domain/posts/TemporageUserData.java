@@ -28,6 +28,9 @@ public class TemporageUserData {
     @Column(length = 32, nullable = false)
     private String name;
 
+    @Column(length = 128, nullable = true)
+    private String sessionId;
+
     @Column
     @CreationTimestamp
     private LocalDateTime create_time;
