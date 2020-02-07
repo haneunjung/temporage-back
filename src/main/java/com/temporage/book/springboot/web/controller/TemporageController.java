@@ -1,6 +1,6 @@
-package com.jojoldu.book.springboot.web.controller;
+package com.temporage.book.springboot.web.controller;
 
-import com.jojoldu.book.springboot.domain.posts.*;
+import com.temporage.book.springboot.domain.posts.*;
 import org.json.simple.JSONObject;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
