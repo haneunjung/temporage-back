@@ -27,6 +27,7 @@ public class CategoryController {
 
     @PutMapping("/category")
     public ResponseEntity<HttpStatus> updateCategoryName(@RequestBody CategoryUpdateResponseDto categoryUpdateResponseDto) {
+
         Category oldCategory = categoryRepository.findByCategoryName(categoryUpdateResponseDto.getOldCategoryName());
         oldCategory.setCategoryName(categoryUpdateResponseDto.getNewCategoryName());
         categoryRepository.save(oldCategory);
@@ -35,25 +36,12 @@ public class CategoryController {
     }
 
 
-    @GetMapping("/category/get-category-list")
-    public JSONObject getCategoryList() {
-        JSONObject result = new JSONObject();
-
-        try {
-            List<Category> categoryList = categoryRepository.findAll();
-
-            result.put("result", 1);
-            result.put("message", categoryList);
-
-        } catch (Exception e) {
-            result.put("result", 0);
-            result.put("message", e.toString());
-        }
-
-        return result;
+    @GetMapping("/category")
+    public ResponseEntity<Category> getCategoryList() {
+        return new ResponseEntity<Category>((Category) categoryRepository.findAll(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/category/delete-category")
+    @DeleteMapping("/category")
     public JSONObject deleteCategory(@RequestParam("category_name") String categoryName) {
         JSONObject result = new JSONObject();
 
