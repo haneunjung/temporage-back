@@ -49,18 +49,18 @@ public class TemporageController {
     }
 
     @PostMapping("/sign-up")
-    public String user_sign_up(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("name") String name){
-        TemporageUserData user_data = new TemporageUserData();
+    public String userSignUp(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("name") String name){
+        TemporageUserData userData = new TemporageUserData();
 
         try{
             if(email != null && password != null && name != null){
                 //이메일이 중첩되지 않은 경우
                 if(userDataRepository.findByEmail(email) == null){
-                    user_data.setEmail(email);
-                    user_data.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
-                    user_data.setName(name);
+                    userData.setEmail(email);
+                    userData.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+                    userData.setName(name);
 
-                    userDataRepository.save(user_data);
+                    userDataRepository.save(userData);
                     return "success";
                 }else{
                     return "이미 가입된 이메일 입니다.";
@@ -76,18 +76,18 @@ public class TemporageController {
     }
 
 
-    @PostMapping("/sign-in")
-    public JSONObject user_sign_in(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest request){
-        TemporageUserData user_data = userDataRepository.findByEmail(email);
-        JSONObject result = new JSONObject(new HashMap<String, String>());
+    @PostMapping("/sign-in") //RequestBody로 바꿀것.
+    public JSONObject userSignIn(@RequestParam("email") String email, @RequestParam("password") String password, HttpServletRequest request){
+        TemporageUserData userData = userDataRepository.findByEmail(email);
+        JSONObject result = new JSONObject(new HashMap<String, String>()); // JSONObject를 쓰지 말고 한번 해보기.
 
-        if(user_data == null){
+        if(userData == null){
             result.put("result", 2);
             result.put("message", "email is not corret");
             return result;
         }
 
-        if(BCrypt.checkpw(password, user_data.getPassword())){
+        if(BCrypt.checkpw(password, userData.getPassword())){
             HttpSession session = request.getSession();
 
             TemporageSession session_data = new TemporageSession(session.getId(), email); //SESSION Part. 02/07
@@ -105,20 +105,21 @@ public class TemporageController {
     }
 
     //SESSION Part. 02/07
+    //TODO: JSESSIONID는 권한 체크할때 사용. JSESSIONID의 유무는 로그인 여부를 확인
     @PostMapping("/session-check")
-    public JSONObject user_session_check(@RequestParam("email") String email, @CookieValue("JSESSIONID") String c_sessionId){
+    public JSONObject userSessionCheck(@RequestParam("email") String email, @CookieValue("JSESSIONID") String cSessionId){
         JSONObject result = new JSONObject();
         TemporageSession sessionInfo = sessionRepository.findByEmail(email);
 
-        if(c_sessionId.equals(sessionInfo.getSession_id())){
+        if(cSessionId.equals(sessionInfo.getSessionId())){
             result.put("result", 1);
             result.put("message", "Session ID is correct");
             return result;
         }else{
             result.put("result", 4);
             result.put("message", "SESSION ID is not correct.");
-            result.put("Client SessionID", c_sessionId);
-            result.put("Server SessionID", sessionInfo.getSession_id());
+            result.put("Client SessionID", cSessionId);
+            result.put("Server SessionID", sessionInfo.getSessionId());
             return result;
         }
     }

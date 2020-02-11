@@ -8,12 +8,11 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    @Transactional
-    @Modifying
-    @Query(value = "UPDATE board SET (title=:newTitle, contents=:newContents WHERE id = boardId", nativeQuery = true)
-    void updatePost(String newTitle, String newContents, String boardId);
+//    @Transactional
+//    @Modifying
+//    @Query(value = "UPDATE board SET (title=:newTitle, contents=:newContents) WHERE id = boardId", nativeQuery = true)
+//    void updatePost(String newTitle, String newContents, String boardId);
 
-    @Query(value = "SELECT * FROM board WHERE email = :email", nativeQuery = true)
     List<Board> findByEmail(String email);
 
     List<Board> findAll();

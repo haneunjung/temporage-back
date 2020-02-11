@@ -18,15 +18,15 @@ public class TemporageSession {
     private String email;
 
     @Column(length = 128, nullable = false)
-    private String session_id;
+    private String sessionId;
 
     @Column
     @CreationTimestamp
     private LocalDate create_date;
 
     @Builder
-    public TemporageSession(String session_id, String email){
-        this.session_id = session_id;
+    public TemporageSession(String sessionId, String email){
+        this.sessionId = sessionId;
         this.email = email;
     }
 }

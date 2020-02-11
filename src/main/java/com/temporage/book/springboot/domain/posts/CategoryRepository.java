@@ -9,8 +9,7 @@ import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Query(value = "SELECT * FROM category", nativeQuery = true)
-    List<Category> findAllCategory();
+    Category findByCategoryName(String categoryName);
 
     @Modifying
     @Transactional
@@ -21,4 +20,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Transactional
     @Query(value = "UPDATE category SET category_name = :newCategoryName WHERE category_name = :oldCategoryName ", nativeQuery = true)
     int updateByCategory_name(String newCategoryName, String oldCategoryName);
+
 }

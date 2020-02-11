@@ -21,9 +21,6 @@ public class Board {
     @Column(nullable = false)
     private String categoryId;
 
-    @Column(length = 256, nullable = false)
-    private String title;
-
     @Column(nullable = false)
     private String contents;
 
@@ -35,8 +32,7 @@ public class Board {
     private LocalDate create_date;
 
     @Builder
-    public Board(String title, String contents, String email, String categoryId){
-        this.title = title;
+    public Board(String contents, String email, String categoryId){
         this.contents = contents;
         this.email = email;
         this.categoryId = categoryId;
