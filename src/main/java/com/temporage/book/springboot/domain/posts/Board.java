@@ -3,6 +3,7 @@ package com.temporage.book.springboot.domain.posts;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "board")
 public class Board {
 

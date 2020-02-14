@@ -10,11 +10,7 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Category findByCategoryName(String categoryName);
-
-    @Modifying
-    @Transactional
-    @Query(value = "DELETE FROM category WHERE category_name = :category_name", nativeQuery = true)
-    int deleteByCategory_name(String category_name);
+    int deleteByCategoryName(String categoryName);
 
     @Modifying
     @Transactional

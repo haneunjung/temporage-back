@@ -14,8 +14,9 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 //    void updatePost(String newTitle, String newContents, String boardId);
 
     List<Board> findByEmail(String email);
-
     List<Board> findAll();
+    List<Board> findByEmailAndCategoryId(String email, String categoryId);
+    Board findById(int id);
 
     @Modifying
     @Transactional

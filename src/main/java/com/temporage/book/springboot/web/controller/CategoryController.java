@@ -37,23 +37,15 @@ public class CategoryController {
 
 
     @GetMapping("/category")
-    public ResponseEntity<Category> getCategoryList() {
-        return new ResponseEntity<Category>((Category) categoryRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<Category>> getCategoryList() {
+        return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
     }
 
     @DeleteMapping("/category")
-    public JSONObject deleteCategory(@RequestParam("category_name") String categoryName) {
-        JSONObject result = new JSONObject();
+    public ResponseEntity<HttpStatus> deleteCategory(@RequestParam("category_name") String categoryName) {
 
-        try {
-            int returnValue = categoryRepository.deleteByCategory_name(categoryName);
-            result.put("result", 1);
-            result.put("message", "success value : " + result);
-        } catch (Exception e) {
-            result.put("result", 0);
-            result.put("message", e.toString());
-        }
+        categoryRepository.deleteByCategoryName(categoryName);
 
-        return result;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

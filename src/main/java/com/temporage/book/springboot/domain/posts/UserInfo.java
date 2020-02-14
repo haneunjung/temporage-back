@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name="temporage_user_data")
-public class TemporageUserData {
+public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -37,7 +37,7 @@ public class TemporageUserData {
 
 
     @Builder
-    public TemporageUserData(String email, String password, String name){
+    public UserInfo(String email, String password, String name){
         this.email = email;
         this.password = password;
         this.name = name;

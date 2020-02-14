@@ -2,8 +2,11 @@ package com.temporage.book.springboot.web.controller;
 
 import com.temporage.book.springboot.domain.posts.Board;
 import com.temporage.book.springboot.domain.posts.BoardRepository;
+import com.temporage.book.springboot.web.controller.dto.BoardResponseDto;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,92 +18,45 @@ public class BoardController {
     @Autowired
     BoardRepository boardRepository;
 
-//    @PutMapping("/board/update-post")
-//    public JSONObject updatePost(@RequestParam Map<String, String> param) {
-//        JSONObject result = new JSONObject();
-//
-//        try {
-//            boardRepository.updatePost(param.get("newTitle"), param.get("newContents"), param.get("boardId"));
-//
-//            result.put("result", 1);
-//            result.put("message", "success");
-//        } catch (Exception e) {
-//            result.put("result", 0);
-//            result.put("message", e.toString());
-//        }
-//
-//        return result;
-//    }
+    @PutMapping("/board")
+    public ResponseEntity<HttpStatus> updatePost(@RequestBody Board new_board) {
+        Board old_board = boardRepository.findById(new_board.getId());
+        old_board.setCategoryId(new_board.getCategoryId());
+        old_board.setContents(new_board.getContents());
+        old_board.setEmail(new_board.getEmail());
+        boardRepository.save(old_board);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PostMapping("/boards")
-    public JSONObject createPost(@ModelAttribute Board board) {
-        JSONObject result = new JSONObject();
+    public ResponseEntity<HttpStatus> createPost(@RequestBody BoardResponseDto boardResponseDto) {
 
-        try {
-            Board save_board = new Board(board.getContents(), board.getEmail(), board.getCategoryId());
-            boardRepository.save(save_board);
+        Board save_board = new Board(boardResponseDto.getContents(), boardResponseDto.getEmail(), boardResponseDto.getCategoryId());
+        boardRepository.save(save_board);
 
-            result.put("result", 1);
-            result.put("message", "success");
-        } catch (Exception e) {
-            result.put("result", 0);
-            result.put("message", e.toString());
-        }
-        return result;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-    @GetMapping("/category/get-all-post")
-    public JSONObject getAllPosts() {
-        JSONObject result = new JSONObject();
-
-        try {
-            List<Board> board_list = boardRepository.findAll();
-
-            result.put("result", 1);
-            result.put("message", board_list);
-
-        } catch (Exception e) {
-            result.put("result", 0);
-            result.put("message", e.toString());
-        }
-        return result;
-    }
 
     @GetMapping("/boards")
-    public JSONObject getPostsByEmail(@RequestParam("email") String email) {
-        JSONObject result = new JSONObject();
+    public ResponseEntity<List<Board>> getAllPosts() {
+        return new ResponseEntity<>(boardRepository.findAll(), HttpStatus.OK);
+    }
 
-        try {
-            List<Board> board_list = boardRepository.findByEmail(email);
+    @GetMapping("/boards/user/{email}")
+    public ResponseEntity<List<Board>> getUserPosts(@PathVariable("email") String email) {
+        return new ResponseEntity<>(boardRepository.findByEmail(email), HttpStatus.OK);
+    }
 
-            result.put("result", 1);
-            result.put("message", board_list);
-
-        } catch (Exception e) {
-            result.put("result", 0);
-            result.put("message", e.toString());
-        }
-
-        return result;
-
+    @GetMapping("/boards/user/{email}/category")
+    public ResponseEntity<List<Board>> getUserCategoryPosts(@PathVariable("email") String email, @RequestParam("categoryId") String categoryId) {
+        return new ResponseEntity<>(boardRepository.findByEmailAndCategoryId(email,categoryId), HttpStatus.OK);
     }
 
     //TODO: 성공 여부는 보통 http status code 로 사용
     @DeleteMapping("/boards/{id}")
-    public JSONObject deleteCategory(@PathVariable String id) {
-        JSONObject result = new JSONObject();
-
-        try {
-            boardRepository.deleteByBoardId(id);
-
-            result.put("result", 1);
-            result.put("message", "success");
-        } catch (Exception e) {
-            result.put("result", 0);
-            result.put("message", e.toString());
-        }
-
-        return result;
+    public ResponseEntity<HttpStatus> deleteCategory(@PathVariable String id) {
+        boardRepository.deleteByBoardId(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
