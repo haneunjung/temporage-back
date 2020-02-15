@@ -4,29 +4,41 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "temporage_session")
 public class TemporageSession {
+
     @Id
-    @Column(length = 64, nullable = false)
-    private String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
     @Column(length = 128, nullable = false)
     private String sessionId;
 
-    @Column
+    @Column(length = 128, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
     @CreationTimestamp
-    private LocalDate create_date;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime createDate;
+
+    @Column(nullable = true)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime updateDate;
+
+    @Column(nullable = true)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime expireDate;
 
     @Builder
-    public TemporageSession(String sessionId, String email){
+    public TemporageSession(String sessionId){
         this.sessionId = sessionId;
-        this.email = email;
     }
 }
