@@ -8,20 +8,9 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
-//    @Transactional
-//    @Modifying
-//    @Query(value = "UPDATE board SET (title=:newTitle, contents=:newContents) WHERE id = boardId", nativeQuery = true)
-//    void updatePost(String newTitle, String newContents, String boardId);
-
     List<Board> findByEmail(String email);
     List<Board> findAll();
     List<Board> findByEmailAndCategoryId(String email, String categoryId);
     Board findById(int id);
-
-    @Modifying
-    @Transactional
-    @Query(value = "DELETE FROM board WHERE boardId = :boardId", nativeQuery = true)
-    void deleteByBoardId(String boardId);
-
-
+    void deleteById(String id);
 }

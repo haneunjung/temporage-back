@@ -37,7 +37,6 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @GetMapping("/boards")
     public ResponseEntity<List<Board>> getAllPosts() {
         return new ResponseEntity<>(boardRepository.findAll(), HttpStatus.OK);
@@ -56,7 +55,7 @@ public class BoardController {
     //TODO: 성공 여부는 보통 http status code 로 사용
     @DeleteMapping("/boards/{id}")
     public ResponseEntity<HttpStatus> deleteCategory(@PathVariable String id) {
-        boardRepository.deleteByBoardId(id);
+        boardRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -8,31 +8,34 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "category")
-public class Category {
+@NoArgsConstructor
+@Table(name = "shared_board")
+public class BoardShared {
 
-    @Id
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Id
     private int id;
 
-    @Column(name = "category_name", length = 128, nullable = false)
-    private String categoryName;
+    @Column
+    private int boardId;
 
-    @Column(nullable = false)
+    @Column
+    private int userId;
+
+    @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm:ss")
     @CreationTimestamp
-    private LocalDate create_date;
+    LocalDateTime shared_date;
 
     @Builder
-    public Category(String category_name){
-        this.categoryName = category_name;
+    public BoardShared(int boardId, int userId){
+        this.boardId=boardId;
+        this.userId=userId;
     }
-
 }

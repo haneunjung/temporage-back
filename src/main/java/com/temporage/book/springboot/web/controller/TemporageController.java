@@ -21,11 +21,9 @@ public class TemporageController {
 
     private final String LOGIN = "login";
     private final String USER = "user";
-    @Autowired
-    TemporageDataRepository appDataRepository;
+
     @Autowired
     UserInfoRepository userDataRepository;
-
 
     @PostMapping("/sign-up")
     public ResponseEntity<HttpStatus> userSignUp(@RequestBody UserInfoDto userInfoDto) {
@@ -41,15 +39,18 @@ public class TemporageController {
     }
 
 
-    @PostMapping("/sign-in")
-    public ResponseEntity<HttpStatus> userSignIn(@RequestBody UserInfoDto userInfoDto, HttpServletRequest request) {
+    @PostMapping("/user/sign-in")
+    public ResponseEntity<Model> userSignIn(@RequestBody UserInfoDto userInfoDto, HttpServletRequest request, Model model) {
         UserInfo userInfo = userDataRepository.findByEmail(userInfoDto.getEmail());
+
         if (BCrypt.checkpw(userInfoDto.getPassword(), userInfo.getPassword())) {
             request.getSession().setAttribute(USER, userInfoDto.getEmail());
-            return new ResponseEntity<>(HttpStatus.OK);
+            //model.addAttribute(USER, userInfoDto.getEmail());
+            return new ResponseEntity<>(model, HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            //model.addAttribute(USER, userInfoDto.getEmail());
+            return new ResponseEntity<>(model, HttpStatus.CONFLICT);
         }
-
     }
+
 }

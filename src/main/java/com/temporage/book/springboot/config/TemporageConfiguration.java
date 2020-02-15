@@ -12,12 +12,13 @@ import java.util.List;
 @EnableJdbcHttpSession
 public class TemporageConfiguration implements WebMvcConfigurer {
 
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        List<String> sessionCheckUrlPattern = Arrays.asList("/category/*", "/boards/*");
+        List<String> sessionCheckUrlPattern = Arrays.asList("/category/**", "/boards/**");
 
         registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/sign-in");
+                .addPathPatterns("/sign-in/**");
 
         registry.addInterceptor(new SessionCheckInterceptor())
                 .addPathPatterns(sessionCheckUrlPattern);

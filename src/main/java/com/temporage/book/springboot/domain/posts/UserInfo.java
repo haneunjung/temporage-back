@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="temporage_user_data")
+@Table(name="user_info")
 public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +29,8 @@ public class UserInfo {
     @Column(length = 32, nullable = false)
     private String name;
 
-    @Column(length = 128, nullable = true)
-    private String sessionId;
-
     @Column
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm:ss")
     @CreationTimestamp
     private LocalDateTime create_time;
 

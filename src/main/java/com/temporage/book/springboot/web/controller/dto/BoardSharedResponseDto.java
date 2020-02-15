@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class UserInfoDto {
-    public final String email;
-    public final String password;
-    public final String name;
+public class BoardSharedResponseDto {
+    private final int boardId;
+    private final int userId;
+    private final int sharedBoardId;
 }
