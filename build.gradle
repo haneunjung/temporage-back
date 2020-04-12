@@ -19,12 +19,14 @@ repositories {
 
 dependencies {
     compile('org.projectlombok:lombok')
+    compile('org.springframework.session:spring-session-jdbc:')
     compile('org.springframework.boot:spring-boot-starter-web:')
     compile('org.springframework.boot:spring-boot-starter-data-jpa:')
     compile('com.h2database:h2')
     testCompile('org.springframework.boot:spring-boot-starter-test:')
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
     //implementation 'org.postgresql:postgresql' // 추가 01/13
     runtimeOnly 'org.postgresql:postgresql' // 추가 01/13
