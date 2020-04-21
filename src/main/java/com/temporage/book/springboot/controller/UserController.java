@@ -49,4 +49,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/user/id/{userEmail}")
+    public ResponseEntity<HttpStatus> isEmailExist(@PathVariable("userEmail") String userEmail) {
+        UserInfo userInfo = userDataRepository.findByUserEmail(userEmail);
+
+        if(userInfo.getUserEmail() == null){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
+
 }
