@@ -19,7 +19,7 @@ https://ddingg.tistory.com/44
 ![temporage_db](https://user-images.githubusercontent.com/29707967/72516191-9be4cd80-3894-11ea-8d1b-1f4ab56da826.png)
 
 #### DB 생성 쿼리  
-CREATE SEQUENCE seq_id START 1;
+CREATE SEQUENCE seq_id START 1; 
 
 -- Table: public.temporage_data
 
