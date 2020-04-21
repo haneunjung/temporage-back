@@ -49,8 +49,8 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/id/{email}")
-    public ResponseEntity<HttpStatus> isEmailExist(@PathVariable("email") String userEmail, HttpServletRequest request) {
+    @GetMapping("/user/id/{userEmail}")
+    public ResponseEntity<HttpStatus> isEmailExist(@PathVariable("userEmail") String userEmail) {
         UserInfo userInfo = userDataRepository.findByUserEmail(userEmail);
 
         if(userInfo.getUserEmail() == null){
