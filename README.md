@@ -85,3 +85,10 @@ ALTER TABLE public.temporage_data OWNER to postgres;
 3 : password is not correct
 4 : Session ID is not correct 
 ```
+
+## 구현 완료된 API
+- [x] 회원가입
+- [x] 로그인(Interceptor에서 Session 체크)
+- [x] 카테고리 생성
+- [x] 게시글 작성
+- [x] 게시글 공유
